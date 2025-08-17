@@ -95,6 +95,38 @@ impl<'a> LocalPlayer<'a> {
         None
     }
 
+    pub fn health(&self) -> std::os::raw::c_uchar {
+        if let Some(player) = self.player_v1.as_ref() {
+            return player.health();
+        }
+
+        if let Some(player) = self.player_v3.as_ref() {
+            return player.health();
+        }
+
+        if let Some(player) = self.player_dl.as_ref() {
+            return 0;
+        }
+
+        0
+    }
+
+    pub fn armor(&self) -> std::os::raw::c_uchar {
+        if let Some(player) = self.player_v1.as_ref() {
+            return player.armor();
+        }
+
+        if let Some(player) = self.player_v3.as_ref() {
+            return player.armor();
+        }
+
+        if let Some(player) = self.player_dl.as_ref() {
+            return 0;
+        }
+
+        0
+    }  
+
     pub fn ped(&self) -> *const () {
         if let Some(player) = self.player_v1.as_ref() {
             return unsafe { (*player.m_pPed).m_pGamePed as *mut _ };
@@ -334,6 +366,38 @@ impl<'a> RemotePlayer<'a> {
 
         u16::max_value()
     }
+
+    pub fn health(&self) -> CVector {
+        if let Some(remote) = self.remote_v1.as_ref() {
+            return remote.health();
+        }
+
+        if let Some(remote) = self.remote_v3.as_ref() {
+            return remote.health();
+        }
+
+        if let Some(remote) = self.remote_dl.as_ref() {
+            return 0;
+        }
+
+        0
+    }  
+
+    pub fn armor(&self) -> CVector {
+        if let Some(remote) = self.remote_v1.as_ref() {
+            return remote.armor();
+        }
+
+        if let Some(remote) = self.remote_v3.as_ref() {
+            return remote.armor();
+        }
+
+        if let Some(remote) = self.remote_dl.as_ref() {
+            return 0;
+        }
+
+        0
+    }  
 }
 
 pub fn local_player<'a>() -> Option<LocalPlayer<'a>> {
