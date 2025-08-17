@@ -283,6 +283,22 @@ impl CRemotePlayer {
     pub fn id(&self) -> ID {
         self.m_nId
     }
+
+    pub fn health(&self) -> std::os::raw::c_uchar {
+        match self.m_nState {
+            17 => self.m_onfootData.m_nHealth, // onfoot
+            19 => self.m_incarData.m_nDriverHealth,  // driver
+            _ => 0,                    // none
+        }
+    } 
+
+    pub fn armor(&self) -> std::os::raw::c_uchar {
+        match self.m_nState {
+            17 => self.m_onfootData.m_nArmor, // onfoot
+            19 => self.m_incarData.m_nDriverArmor,  // driver
+            _ => 0,                    // none
+        }
+    }  
 }
 
 #[repr(C, packed)]
@@ -444,6 +460,24 @@ impl CLocalPlayer {
     pub fn id(&self) -> Option<i32> {
         player_pool().map(|players| players.m_localInfo.m_nId as i32)
     }
+
+    pub fn health(&self) -> std::os::raw::c_uchar {
+        if self.m_nCurrentVehicle != u16::max_value() {
+            self.m_incarData.m_nDriverHealth // driver
+                                             
+        } else {
+            self.m_onfootData.m_nHealth // onfoot
+        }
+    } 
+
+    pub fn armor(&self) -> std::os::raw::c_uchar {
+        if self.m_nCurrentVehicle != u16::max_value() {
+            self.m_incarData.m_nDriverArmor // driver
+                                             
+        } else {
+            self.m_onfootData.m_nArmor // onfoot
+        }
+    }   
 }
 
 #[repr(C, packed)]
