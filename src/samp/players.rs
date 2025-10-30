@@ -367,7 +367,7 @@ impl<'a> RemotePlayer<'a> {
         u16::max_value()
     }
 
-    pub fn health(&self) -> CVector {
+    pub fn health(&self) -> u8 {
         if let Some(remote) = self.remote_v1.as_ref() {
             return remote.health();
         }
@@ -383,7 +383,7 @@ impl<'a> RemotePlayer<'a> {
         0
     }  
 
-    pub fn armor(&self) -> CVector {
+    pub fn armor(&self) -> u8 {
         if let Some(remote) = self.remote_v1.as_ref() {
             return remote.armor();
         }
